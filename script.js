@@ -8,6 +8,8 @@ const division = document.querySelector('.division');
 const result = document.querySelector('.equal_to');
 const backspace = document.querySelector('.backspace');
 const clear = document.querySelector('.clear');
+const open_parenthese = document.querySelector('.open_parenthese');
+const close_parenthese = document.querySelector('.close_parenthese');
 
 // Consider a variable to store the value of the user
 let value = '';
@@ -34,6 +36,40 @@ numbers.forEach(btn => {
         }
     });
 });
+
+// Function to check for the equal parentese.
+function check_parenthese(str) {
+    let stack = [];
+    for(let ch of str){
+        if (ch == '(') stack.push(ch);
+        else if (ch == ')') {
+            if (stack.length == 0) return false;
+            stack.pop();
+        }
+    }
+    return stack.length === 0;
+}
+
+// To add the parenthese if user wants to enter.
+open_parenthese.addEventListener('click', (e) => {
+    if (display.textContent == '0') 
+        display.textContent = '(';
+    else 
+        display.textContent += '(';
+    
+    previous_inputs += '(';
+})
+
+// Note : here we are not adding the if else because if there is a opening parenthese is available then only the closing one will be added.
+close_parenthese.addEventListener('click', (e) => {
+    // add ')' only if the '(' is unmatched.
+    let opens = (previous_inputs.match(/\(/g) || []).length;
+    let close = (previous_inputs.match(/\)/g) || []).length;
+    if (opens > close && !isOperator(previous_inputs.at(-1))){
+        display.textContent += ')';
+        previous_inputs += ')';
+    }
+})
 
 // function for the operator check.
 function isOperator(value){
@@ -68,46 +104,14 @@ division.addEventListener('click', e => {
 
 // To display the result when user presses the equal to button.
 result.addEventListener('click', () => {
-    // Array to store separated numbers and operators
-    let inputs_array = [];
-    let num = '';
-
-    // Split numbers and operators from previous_inputs
-    for (let i = 0; i < previous_inputs.length; i++) {
-        let ch = previous_inputs[i];
-
-        if (!isOperator(ch)) {
-            num += ch; // build number
-        } else {
-            if (num !== '') {
-                inputs_array.push(Number(num));
-                num = '';
-            }
-            inputs_array.push(ch); // push operator
-        }
+    try {
+        let final_result = eval(previous_inputs); // built-in evaluator handles ()
+        display.textContent = final_result;
+        previous_inputs = String(final_result);
+    } catch (error) {
+        display.textContent = "Error";
     }
-    if (num !== '') inputs_array.push(Number(num)); // push last number
-
-    // Simple calculation (supports +, -, *, /)
-    let final_result = inputs_array[0];
-    for (let i = 1; i < inputs_array.length; i += 2) {
-        let op = inputs_array[i];
-        let next = inputs_array[i + 1];
-
-        if (typeof next !== 'number' || isNaN(next)) continue; // avoid NaN
-        
-        switch (op) {
-            case '+': final_result += next; break;
-            case '-': final_result -= next; break;
-            case '*': final_result *= next; break;
-            case '/': final_result /= next; break;
-        }
-    }
-
-    display.textContent = String(final_result);
-    previous_inputs = String(final_result);
 });
-
 
 // To remove the recent number/operator from display and from previous_inputs.
 backspace.addEventListener('click', () => {

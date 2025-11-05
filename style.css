@@ -1,5 +1,6 @@
 body {
     background-color: aquamarine;
+    font-family: sans-serif;
 }
 
 p {
@@ -48,7 +49,6 @@ button:active {
 }
 
 .backspace {
-    margin-left: 85px;
     color: white;
     background: black;
 }

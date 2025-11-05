@@ -1,0 +1,24 @@
+{
+  "name": "calculator-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coder-99-008/calculator-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coder-99-008/calculator-app/issues"
+  },
+  "homepage": "https://github.com/coder-99-008/calculator-app#readme",
+  "devDependencies": {
+    "electron": "^39.0.0"
+  }
+}
